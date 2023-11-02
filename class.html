@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .is-selected{
+      background-color: antiquewhite;
+    }
+    .is-required{
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>다양한 전시 정보</h1>
+    <hr>
+    <ul>
+      <li v-bind:id="info.enTitle" :class="{'is-selected':checked}">
+        <label for="checkbox">
+          전시 선택
+        <input type="checkbox" id="checkbox" v-model="checked">
+        </label>
+        <h3>{{info.koTitle}}</h3>
+        <p v-html="info.description">전시 정보 설명</p>
+        <hr>
+        <p>{{info.artMuseum}}</p>
+				<a v-bind:href="info.museumURL">전시장 바로가기</a>
+        <hr>
+        <p>입장권 구매하기</p>
+        <p>가격 : {{info.price}}</p>
+        <div>
+          <span :class="{'is-required':!people}">인원 수 : {{people}} 명 </span>
+          <button v-on:click="decreaseNum" v-bind:disabled="people == 0">-</button>
+          <button v-on:click="increaseNum" v-bind:disabled="people == 10">+</button>
+        </div>
+        <hr>
+      </li>
+    </ul>
+    <p>총 입장료 : {{checked ? price : 0}} 원</p>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+  const {createApp, ref} = Vue
+  const app = createApp({
+    setup(){
+      const info = ref({
+        koTitle :'모네 인사이드',
+        enTitle : 'monet-inside',
+        artMuseum : '예술의 전당',
+        museumURL : 'https://www.sac.or.kr/',
+        description : '<p> &lt;모네 인사이드&gt; 는 빛의 화가 <b>클로드 모네</b>가 남긴 소중한 명작들을 현대적 감각으로 재해석해 음악과 함께 감상하는 미디어아트 전시입니다. </p>',
+        isSelected : false,
+        price : 1000,
+        totalNum:0
+      })
+      const people = ref(1)
+      const price = ref(1000)
+      const checked = ref(false)
+      const decreaseNum = ()=>{
+        if (people.value>0){
+          people.value--
+          price.value = people.value*1000
+        }
+      }
+      const increaseNum = ()=>{
+        if (people.value<10){
+        people.value++
+        price.value = people.value*1000
+        }
+      }
+      return{
+        info,
+        people, price, checked,
+        decreaseNum, increaseNum
+      }
+    }
+  })
+  app.mount('#app')
+  </script>
+</body>
+</html>
