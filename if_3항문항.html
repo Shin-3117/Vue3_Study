@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .is-selected{
+      background-color: antiquewhite;
+    }
+    .is-required{
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>if와 3항연산자</h1>
+    <hr>
+    <p>{{a==1 ? 2 : 3}}</p>
+
+    <p>표현식이라 가능</p>
+    <p>{{ifF}}</p>
+    <p>{{ifF()}}</p>
+
+    <p>if문 중괄호로 못 넣음</p>
+    <!-- <p>{{if(a==1){2} else{3} }}</p> -->
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+  const {createApp, ref} = Vue
+  const app = createApp({
+    setup(){
+      const a = ref(1)
+      const ifF = ()=>{
+        if (a.value==1){
+          return 2
+        } else {
+          return 3
+        }
+      }
+      return{
+        a, ifF
+      }
+    }
+  })
+  app.mount('#app')
+  </script>
+</body>
+</html>
