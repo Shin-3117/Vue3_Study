@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <div id="app">
+    <h1>다양한 전시 정보</h1>
+    <label for="isActive">전시 중인 정보만 보기
+      <input type="checkbox" id="isActive" v-model="isCheck">
+    </label>
+    <!-- <p>{{isCheck}}</p> -->
+    <!-- <p>{{ isActiveExhibition }}</p> -->
+    <ul v-for="i in isActiveExhibition" :key="i.title">
+      <li>
+        <h3>{{i.title}}</h3>
+        <hr>
+        <p>{{i.place}}</p>
+        <p>가격 : {{i.price}}</p>
+        
+        <hr>
+      </li>
+    </ul>
+  </div>
+  <script>
+  const { createApp, ref, computed} = Vue
+  const app = createApp({
+    setup(){
+      const isCheck = ref(false)
+      const Info = ref([
+        {
+          'title': '무라카미 다카시 : 무라카시좀비',
+          'place': '부산 시립 미술관',
+          'price': 1000,
+          'isActive': true
+        },
+        {
+          'title': '마우라치오 카텔란 개인전',
+          'place': '리움 미술관',
+          'price': 30000,
+          'isActive': true
+        },
+        {
+          'title': '조선백자전',
+          'place': '리움 미술관',
+          'price': 30000,
+          'isActive': true
+        },
+        {
+          'title': '한국 실험미술 1960 - 1970',
+          'place': '국립현대미술관',
+          'price': 0,
+          'isActive': true
+        },
+        {
+          'title': '에드워드 호퍼 : 길 위에서',
+          'place': '서울 시립 미술관',
+          'price': 1000,
+          'isActive': false
+        },
+        {
+          'title': '알렉산더 칼더 x 이우환',
+          'place': '국제갤러리 서울점',
+          'price': 15000,
+          'isActive': false
+        }
+      ])
+      const filterInfo = ref([])
+      for (const info of Info.value){
+        if (info.isActive === true){
+          filterInfo.value.push(info)
+        }
+      }
+
+      const isActiveExhibition = computed(()=>{
+        return isCheck.value ? filterInfo.value : Info.value
+      })
+      return{
+        Info,
+        isCheck,
+        filterInfo,
+        isActiveExhibition
+      }
+    }
+  }).mount('#app')
+  </script>
+</body>
+</html>
