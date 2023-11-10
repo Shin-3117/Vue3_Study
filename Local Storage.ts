@@ -22,6 +22,12 @@ const addCart = (key:string, value:string|Object) => {
 }
 
 /**localStorage 값 가져오기 */ 
-const getCart = (key:string) => {
-  return localStorage.getItem(key)
+export const getLocalStorage = (key:string) => {
+  const data = localStorage.getItem(key)
+  if (typeof(data)==='string'){
+    const objData = JSON.parse(data)
+    return objData
+  } else {
+    return null
+  }
 }
